@@ -1,0 +1,514 @@
+{
+  "emoji": [
+    {
+      "alt": "[微笑]",
+      "src": "emoji/1.png",
+      "title": "/::)"
+    },
+    {
+      "alt": "[撇嘴]",
+      "src": "emoji/2.png",
+      "title": "/::~"
+    },
+    {
+      "alt": "[色]",
+      "src": "emoji/3.png",
+      "title": "/::B"
+    },
+    {
+      "alt": "[发呆]",
+      "src": "emoji/4.png",
+      "title": "/::|"
+    },
+    {
+      "alt": "[得意]",
+      "src": "emoji/5.png",
+      "title": "/:8-)"
+    },
+    {
+      "alt": "[流泪]",
+      "src": "emoji/6.png",
+      "title": "/::<"
+    },
+    {
+      "alt": "[害羞]",
+      "src": "emoji/7.png",
+      "title": "/::$"
+    },
+    {
+      "alt": "[闭嘴]",
+      "src": "emoji/8.png",
+      "title": "/::X"
+    },
+    {
+      "alt": "[睡]",
+      "src": "emoji/9.png",
+      "title": "/::Z"
+    },
+    {
+      "alt": "[大哭]",
+      "src": "emoji/10.png",
+      "title": "/::’("
+    },
+    {
+      "alt": "[尴尬]",
+      "src": "emoji/11.png",
+      "title": "/::-|"
+    },
+    {
+      "alt": "[发怒]",
+      "src": "emoji/12.png",
+      "title": "/::@"
+    },
+    {
+      "alt": "[调皮]",
+      "src": "emoji/13.png",
+      "title": "/::P"
+    },
+    {
+      "alt": "[呲牙]",
+      "src": "emoji/14.png",
+      "title": "/::D"
+    },
+    {
+      "alt": "[惊讶]",
+      "src": "emoji/15.png",
+      "title": "/::O"
+    },
+    {
+      "alt": "[难过]",
+      "src": "emoji/16.png",
+      "title": "/::("
+    },
+    {
+      "alt": "[囧]",
+      "src": "emoji/17.png",
+      "title": "/::-|"
+    },
+    {
+      "alt": "[抓狂]",
+      "src": "emoji/18.png",
+      "title": "/::Q"
+    },
+    {
+      "alt": "[吐]",
+      "src": "emoji/19.png",
+      "title": "/::T"
+    },
+    {
+      "alt": "[偷笑]",
+      "src": "emoji/20.png",
+      "title": "/:,@P"
+    },
+    {
+      "alt": "[愉快]",
+      "src": "emoji/21.png",
+      "title": "/:,@-D"
+    },
+    {
+      "alt": "[白眼]",
+      "src": "emoji/22.png",
+      "title": "/::d"
+    },
+    {
+      "alt": "[傲慢]",
+      "src": "emoji/23.png",
+      "title": "/:,@o"
+    },
+    {
+      "alt": "[困]",
+      "src": "emoji/24.png",
+      "title": "/:|-)"
+    },
+    {
+      "alt": "[惊恐]",
+      "src": "emoji/25.png",
+      "title": "/::!"
+    },
+    {
+      "alt": "[流汗]",
+      "src": "emoji/26.png",
+      "title": "/::L"
+    },
+    {
+      "alt": "[憨笑]",
+      "src": "emoji/27.png",
+      "title": "/::>"
+    },
+    {
+      "alt": "[悠闲]",
+      "src": "emoji/28.png",
+      "title": "/::,@"
+    },
+    {
+      "alt": "[奋斗]",
+      "src": "emoji/29.png",
+      "title": "/:,@f"
+    },
+    {
+      "alt": "[咒骂]",
+      "src": "emoji/30.png",
+      "title": "/::-S"
+    },
+    {
+      "alt": "[疑问]",
+      "src": "emoji/31.png",
+      "title": "/:?"
+    },
+    {
+      "alt": "[嘘]",
+      "src": "emoji/32.png",
+      "title": "/:,@x"
+    },
+    {
+      "alt": "[晕]",
+      "src": "emoji/33.png",
+      "title": "/:,@@"
+    },
+    {
+      "alt": "[衰]",
+      "src": "emoji/34.png",
+      "title": "/:,@!"
+    },
+    {
+      "alt": "[骷髅]",
+      "src": "emoji/35.png",
+      "title": "/:!!!"
+    },
+    {
+      "alt": "[敲打]",
+      "src": "emoji/36.png",
+      "title": "/:xx"
+    },
+    {
+      "alt": "[再见]",
+      "src": "emoji/37.png",
+      "title": "/:bye"
+    },
+    {
+      "alt": "[擦汗]",
+      "src": "emoji/38.png",
+      "title": "/:wipe"
+    },
+    {
+      "alt": "[抠鼻]",
+      "src": "emoji/39.png",
+      "title": "/:dig"
+    },
+    {
+      "alt": "[鼓掌]",
+      "src": "emoji/40.png",
+      "title": "/:handclap"
+    },
+    {
+      "alt": "[坏笑]",
+      "src": "emoji/41.png",
+      "title": "/:B-)"
+    },
+    {
+      "alt": "[左哼哼]",
+      "src": "emoji/42.png",
+      "title": "/:<@"
+    },
+    {
+      "alt": "[右哼哼]",
+      "src": "emoji/43.png",
+      "title": "/:@>"
+    },
+    {
+      "alt": "[哈欠]",
+      "src": "emoji/44.png",
+      "title": "/::-O"
+    },
+    {
+      "alt": "[鄙视]",
+      "src": "emoji/45.png",
+      "title": "/:>-|"
+    },
+    {
+      "alt": "[委屈]",
+      "src": "emoji/46.png",
+      "title": "/:P-("
+    },
+    {
+      "alt": "[快哭了]",
+      "src": "emoji/47.png",
+      "title": "/::’|"
+    },
+    {
+      "alt": "[阴险]",
+      "src": "emoji/48.png",
+      "title": "/:X-)"
+    },
+    {
+      "alt": "[亲亲]",
+      "src": "emoji/49.png",
+      "title": "/::*"
+    },
+    {
+      "alt": "[可怜]",
+      "src": "emoji/50.png",
+      "title": "/:8*"
+    },
+    {
+      "alt": "[菜刀]",
+      "src": "emoji/51.png",
+      "title": "/:pd"
+    },
+    {
+      "alt": "[西瓜]",
+      "src": "emoji/52.png",
+      "title": "/:<W>"
+    },
+    {
+      "alt": "[啤酒]",
+      "src": "emoji/53.png",
+      "title": "/:beer"
+    },
+    {
+      "alt": "[咖啡]",
+      "src": "emoji/54.png",
+      "title": "/:coffee"
+    },
+    {
+      "alt": "[猪头]",
+      "src": "emoji/55.png",
+      "title": "/:pig"
+    },
+    {
+      "alt": "[玫瑰]",
+      "src": "emoji/56.png",
+      "title": "/:rose"
+    },
+    {
+      "alt": "[凋谢]",
+      "src": "emoji/57.png",
+      "title": "/:fade"
+    },
+    {
+      "alt": "[嘴唇]",
+      "src": "emoji/58.png",
+      "title": "/:showlove"
+    },
+    {
+      "alt": "[爱心]",
+      "src": "emoji/59.png",
+      "title": "/:heart"
+    },
+    {
+      "alt": "[心碎]",
+      "src": "emoji/60.png",
+      "title": "/:break"
+    },
+    {
+      "alt": "[蛋糕]",
+      "src": "emoji/61.png",
+      "title": "/:cake"
+    },
+    {
+      "alt": "[炸弹]",
+      "src": "emoji/62.png",
+      "title": "/:bome"
+    },
+    {
+      "alt": "[便便]",
+      "src": "emoji/63.png",
+      "title": "/:shit-"
+    },
+    {
+      "alt": "[月亮]",
+      "src": "emoji/64.png",
+      "title": "/:moon"
+    },
+    {
+      "alt": "[太阳]",
+      "src": "emoji/65.png",
+      "title": "/:sun"
+    },
+    {
+      "alt": "[拥抱]",
+      "src": "emoji/66.png",
+      "title": "/:hug"
+    },
+    {
+      "alt": "[强]",
+      "src": "emoji/67.png",
+      "title": "/:strong"
+    },
+    {
+      "alt": "[弱]",
+      "src": "emoji/68.png",
+      "title": "/:weak"
+    },
+    {
+      "alt": "[握手]",
+      "src": "emoji/69.png",
+      "title": "/:share"
+    },
+    {
+      "alt": "[胜利]",
+      "src": "emoji/70.png",
+      "title": "/:v"
+    },
+    {
+      "alt": "[抱拳]",
+      "src": "emoji/71.png",
+      "title": "/:@)"
+    },
+    {
+      "alt": "[勾引]",
+      "src": "emoji/72.png",
+      "title": "/:jj"
+    },
+    {
+      "alt": "[拳头]",
+      "src": "emoji/73.png",
+      "title": "/:@@"
+    },
+    {
+      "alt": "[OK]",
+      "src": "emoji/74.png",
+      "title": "/:ok"
+    },
+    {
+      "alt": "[跳跳]",
+      "src": "emoji/75.png",
+      "title": "/:jump"
+    },
+    {
+      "alt": "[发抖]",
+      "src": "emoji/76.png",
+      "title": "/:shake"
+    },
+    {
+      "alt": "[怄火]",
+      "src": "emoji/77.png",
+      "title": "/:"
+    },
+    {
+      "alt": "[转圈]",
+      "src": "emoji/78.png",
+      "title": "/:circle"
+    },
+    {
+      "alt": "😄",
+      "src": "emoji/79.png",
+      "title": "😄"
+    },
+    {
+      "alt": "😷",
+      "src": "emoji/80.png",
+      "title": "😷"
+    },
+    {
+      "alt": "😂",
+      "src": "emoji/81.png",
+      "title": "😂"
+    },
+    {
+      "alt": "[吐舌]",
+      "src": "emoji/82.png",
+      "title": ""
+    },
+    {
+      "alt": "[脸红]",
+      "src": "emoji/83.png",
+      "title": ""
+    },
+    {
+      "alt": "[恐惧]",
+      "src": "emoji/84.png",
+      "title": ""
+    },
+    {
+      "alt": "[失望]",
+      "src": "emoji/85.png",
+      "title": ""
+    },
+    {
+      "alt": "[无语]",
+      "src": "emoji/86.png",
+      "title": ""
+    },
+    {
+      "alt": "[嘿哈]",
+      "src": "emoji/87.png",
+      "title": ""
+    },
+    {
+      "alt": "[捂脸]",
+      "src": "emoji/88.png",
+      "title": ""
+    },
+    {
+      "alt": "[奸笑]",
+      "src": "emoji/89.png",
+      "title": ""
+    },
+    {
+      "alt": "[机智]",
+      "src": "emoji/90.png",
+      "title": ""
+    },
+    {
+      "alt": "[皱眉]",
+      "src": "emoji/91.png",
+      "title": ""
+    },
+    {
+      "alt": "[耶]",
+      "src": "emoji/92.png",
+      "title": ""
+    },
+    {
+      "alt": "[吃瓜]",
+      "src": "emoji/93.png",
+      "title": ""
+    },
+    {
+      "alt": "[加油]",
+      "src": "emoji/94.png",
+      "title": ""
+    },
+    {
+      "alt": "[汗]",
+      "src": "emoji/95.png",
+      "title": ""
+    },
+    {
+      "alt": "[天啊]",
+      "src": "emoji/96.png",
+      "title": ""
+    },
+    {
+      "alt": "[Emm]",
+      "src": "emoji/97.png",
+      "title": ""
+    },
+    {
+      "alt": "[社会社会]",
+      "src": "emoji/98.png",
+      "title": ""
+    },
+    {
+      "alt": "[旺柴]",
+      "src": "emoji/99.png",
+      "title": ""
+    },
+    {
+      "alt": "[好的]",
+      "src": "emoji/100.png",
+      "title": ""
+    },
+    {
+      "alt": "[打脸]",
+      "src": "emoji/101.png",
+      "title": ""
+    },
+    {
+      "alt": "[加油加油]",
+      "src": "emoji/102.png",
+      "title": ""
+    }
+  ]
+}

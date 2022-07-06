@@ -1,0 +1,669 @@
+{{define "/chat.html"}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <title>健检综合服务移动平台</title>
+    <link rel="shortcut icon" href="/asset/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/js/elementui/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/chat.css"/>
+</head>
+<body>
+<div id="app">
+    <div class="navBar">
+        <div class="navBar_left">
+            <el-avatar shape="square" style="" size="50" v-text="userinfo.account" :title="userinfo.account"></el-avatar>
+            <el-input
+                    placeholder="搜索"
+                    prefix-icon="el-icon-search"
+                    v-model="searchVal">
+            </el-input>
+            <i @click="adduser" class="el-icon-circle-plus-outline"></i>
+        </div>
+        <div class="navBar_right">
+            <span v-text="title.name || ''"></span>
+<!--            <i class="el-icon-close"></i>-->
+        </div>
+    </div>
+    <div class="flex">
+        <div class="leftBox">
+            <!-- 单聊列表 -->
+            <div :class="title.name == item.account? 'mess_item act_item':'mess_item'" v-for="(item,index) in friends_filter" :key="index" @click="toChat(item,1)">
+                <div class="flex">
+                    <el-badge :is-dot="(unreadMSG.indexOf(Number(index)) > -1 && title.name != item.account)" class="item">
+                    <el-avatar icon="el-icon-user-solid" src="/asset/img/avatar0.png"></el-avatar>
+                    </el-badge>
+                    <div class="flex-col">
+                        <span class="name" v-text="item.account"></span>
+                        <span class="textinfo"></span>
+                    </div>
+                </div>
+                <span></span>
+            </div>
+
+            <!-- 群聊列表 -->
+            <div :class="title.name == item.name? 'mess_item act_item':'mess_item'" v-for="item in communitys" :key="item.id" @click="toChat(item,2)">
+                <div class="flex">
+                    <el-badge :is-dot="(unreadMSGG.indexOf(Number(item.id)) > -1 && title.name != item.name)" class="item">
+                        <el-avatar icon="el-icon-user-solid" :src="item.icon"></el-avatar>
+                    </el-badge>
+                    <div class="flex-col">
+                        <span class="name" v-text="item.name"></span>
+                        <span class="textinfo"></span>
+                    </div>
+                </div>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="main">
+            <div v-if='status=="addcontacts"' class="main_add">
+                <el-input
+                        class="search-name"
+                        placeholder="搜索联系人"
+                        v-model="searchuser"
+                        suffix-icon="el-icon-search">
+                </el-input>
+
+
+                <div class=" userList">
+<!--                    <el-radio v-model="addvalue" :label="item.id" v-if="item.id != userId()" v-for="item in usermap_filter" :key="item.id">${item.account}</el-radio>-->
+                    <el-checkbox-group v-model="addvalue">
+                        <el-checkbox :label="item.id" v-if="item.id != userId()" v-for="item in usermap_filter" :key="item.id">${item.account}</el-checkbox>
+                    </el-checkbox-group>
+                </div>
+
+                <el-row type="flex" justify="end" class="paddwin">
+                    <el-input
+                              class="group-name"
+                              placeholder="请输入群名称"
+                              v-model="groupName"
+                              clearable
+                              v-show="addvalue.length > 1">
+                    </el-input>
+                    <el-button @click="status='chating'">取消</el-button>
+                    <el-button @click="newChat" type="success">确定</el-button>
+                </el-row>
+            </div>
+            <div v-else class="main_chat">
+                <div class="chatmessBox" id="convo">
+                    <el-row type="flex" :justify="item.ismine?'end':'star' " :class="item.ismine?'minemess':'' " v-for="item in msglist" :key="item.id">
+                        <div class="flex" v-if="!item.ismine">
+                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                            <div class="flex-col"><span class="name" v-text="item.account"></span></div>
+                        </div>
+
+                        <!--文字-->
+                        <div class="messBox" v-if="item.msg.media==1">
+                            <span class="sjicon"></span>
+                            <span v-text="item.msg.content"></span>
+                        </div>
+                        <!--语音-->
+                        <div class="messBox" v-if="item.msg.media==3"  @click="playaudio(item.msg.url)">
+                            <img class="audio" src="/asset/img/audiom.png" style="width: 30px;margin: 0 0;"/>
+                            <span v-text="item.msg.amount+'″'"></span>
+                        </div>
+                        <!--表情-->
+                        <img v-if="item.msg.media==4" class="show-emoji" :src="item.msg.url">
+
+                        <!--图片-->
+                        <el-image
+                                v-if="item.msg.media==5"
+                                class="show-img"
+                                style="width: 100px; height: 100px"
+                                :src="item.msg.url"
+                                :preview-src-list="[item.msg.url]">
+                        </el-image>
+
+                        <div class="flex" v-if="item.ismine">
+                            <el-avatar icon="el-icon-user-solid"></el-avatar>
+                            <div class="flex-col"><span class="name" v-text="item.account"></span></div>
+                        </div>
+                    </el-row>
+                </div>
+                <div class="sendmessBox" v-show="!!title.name">
+                    <el-row class="navIcon" type="flex" justify="star">
+                        <span class="emojiicon" @click="showemoji=!showemoji"></span>
+
+                        <span class="imgicon"><input accept="image/gif,image/jpeg,image/png" type="file" :value="imgval" onchange="upload(this)"  style="opacity: 0;width:20px;height: 20px;" /></span>
+
+                        <span class="yyicon" @click="showyy=!showyy"></span>
+                        <!--移动端-->
+                        <input class="text yy-button" v-if="isMobile()" v-show="!!showyy" value="请按住说话" type="button" @touchstart="startrecorder" @touchend="stoprecorder" @touchmove="cancelrecorder">
+                        <!--PC端-->
+                        <input class="text yy-button" v-else v-show="!!showyy" value="请按住说话" type="button" @mousedown="startrecorder" @mouseup="stoprecorder" @mousemove="cancelrecorder">
+
+                        <div class="emojiView" v-show="showemoji">
+                            <div class="emojiBox">
+                                <img v-for="item in emojiList" :src="'/asset/img/chat/'+item.src" alt="" @click="showemoji=!showemoji;sendpicmsg('/asset/img/chat/'+item.src,4)">
+                            </div>
+                            <div class="emojisj"></div>
+                        </div>
+                    </el-row>
+                    <el-input
+                            type="textarea"
+                            placeholder="Please input"
+                            v-model="txtmsg"
+                            resize="none"
+                            class="input-text"
+                    >
+                    </el-input>
+                    <el-button class="sendBtn" type="success" @click="sendtxtmsg(txtmsg)">发送</el-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio" style="display: none"></audio>
+    <audio id="audio4play" style="display: none"></audio>
+
+    <div id='sound-alert' class="rprogress" v-show="showprocess">
+        <div class="rschedule"></div>
+        <div class="r-sigh">!</div>
+        <div id="audio-tips" class="rsalert">手指上滑，取消发送</div>
+    </div>
+</div>
+
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script src="/asset/js/elementui/index.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="/asset/js/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="/asset/js/util.js" ></script>
+
+<style>
+    .sendmessBox{background: #f4f5f6;}
+    .input-text textarea{background: #f4f5f6;border-top: 1px dashed #e9e9e9;}
+    .yy-button{width: 300px; border:none;background:#fbfbfb;text-align: center;height: 20px;line-height: 16px;}
+    .rprogress {
+        position: absolute;
+        left: 50%;
+        top: 45%;
+        width: 140px;
+        height: 140px;
+        margin-left: -70px;
+        margin-top: -70px;
+        background-image: url(data:image/png;base64,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);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 30px 30px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 5px;
+        -webkit-transition: .15s;
+        z-index: 1000;
+    }
+    .rschedule {
+        background-color: rgba(0, 0, 0, 0);
+        border: 5px solid rgba(0, 183, 229, 0.9);
+        opacity: .9;
+        border-left: 5px solid rgba(0, 0, 0, 0);
+        border-right: 5px solid rgba(0, 0, 0, 0);
+        border-radius: 50px;
+        box-shadow: 0 0 15px #2187e7;
+        width: 46px;
+        height: 46px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -23px;
+        margin-top: -23px;
+        -webkit-animation: spin 1s infinite linear;
+        animation: spin 1s infinite linear;
+        z-index: 1000;
+    }
+    .r-sigh {
+        display: none;
+        border-radius: 50px;
+        box-shadow: 0 0 15px #2187e7;
+        width: 46px;
+        height: 46px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -23px;
+        margin-top: -23px;
+        text-align: center;
+        line-height: 46px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #2187e7;
+    }
+    .rsalert {
+        font-size: 12px;
+        color: #bbb;
+        text-align: center;
+        position: absolute;
+        border-radius: 5px;
+        width: 130px;
+        margin: 5px 5px;
+        padding: 5px;
+        left: 0px;
+        bottom: 0px;
+    }
+</style>
+<script>
+    function userId(){
+        return parseInt(util.parseQuery("id"))
+    }
+
+    var app = new Vue({
+        delimiters:['${','}'], //修改vue的默认渲染标签
+        el: '#app',
+        data: {
+            imgval:'', //input type='file' 解决onchange只触发一次问题,只需要让input的值清空即可
+            usermap:{},
+            communitys:[], //群
+            usermap_filter:{}, //用户搜索时，防止数据丢失
+            friends:{},
+            friends_filter:{}, //用户搜索时，防止数据丢失
+            searchVal: '',//搜索内容
+            status: 'chating',//addcontacts
+            searchuser: '', //搜索联系人，进行加好友聊天
+            emojiList: [],
+            msglist:[], //消息列表
+            unreadMSG:[], //未读消息
+            unreadMSGG:[], //未读消息-群
+            txtmsg: '',
+            groupName: '', //群名称
+            showemoji:false,
+            showyy:false,
+            showprocess:false,
+            webSocket:{},
+            userData: [
+                {key: 1,label: "wucs",disabled: false,date:'2022-3-3',text:'测试测试'}
+            ],
+            addvalue: [], //[], //添加聊天的用户
+            title:{},
+            msgcontext:{
+                userid:userId(),
+                dstid:10,
+                cate:1
+            },
+            userinfo:{account:''},
+            recorder:'' //录音
+        },
+        created:async function() {
+            this.initwebsocket();
+
+            let res = await post("contact/loadfriend",{userid:userId()})  //加载最近联系人信息
+            if(res.rows){
+                for(let item of res.rows){
+                    this.friends[item.id]=item;
+                }
+            }
+
+            let user = await post("contact/loadusers",{userid:userId()})   //加载可添加好友人信息
+            var usermap = this.usermap;
+            for(var i in user.rows){
+                var k = ""+user.rows[i].id
+                usermap[k]=user.rows[i];
+            }
+            this.usermap = usermap;
+
+            this.userinfo = this.usermap[userId()]
+
+            //console.log('friends',this.friends)
+            //console.log('usermap',this.usermap)
+
+            this.loadcommunitys(); //加载群信息
+
+            let emojis = await get("/asset/json/emoji.json")
+            this.emojiList = emojis.emoji
+
+        },
+        watch:{
+            usermap: {
+                handler(newValue) {
+                    this.usermap_filter = newValue;
+                },
+                immediate: true //立即进行监听
+            },
+            searchuser(newValue){
+                let _search = newValue.toLowerCase();
+                let newListData = []; // 用于存放搜索出来数据的新数组
+                if (_search) {
+                    //过滤数组
+                    for(let item in this.usermap){
+                        // newListData中 没有查询的内容，就添加到newListData中
+                        if (this.usermap[item].account.toLowerCase().indexOf(_search) !== -1) {
+                            newListData.push(this.usermap[item]);
+                        }
+                    }
+                    this.usermap_filter = newListData;
+                }else{
+                    this.usermap_filter = this.usermap;
+                }
+
+            },
+            friends:{
+                handler(newValue) {
+                    this.friends_filter = newValue;
+                },
+                immediate: true
+            },
+            searchVal(newValue){
+                let _search = newValue.toLowerCase();
+                let newListData = []; // 用于存放搜索出来数据的新数组
+                if (_search) {
+                    //过滤数组
+                    for(let item in this.friends){
+                        // newListData中 没有查询的内容，就添加到newListData中
+                        if (this.friends[item].account.toLowerCase().indexOf(_search) !== -1) {
+                            newListData.push(this.friends[item]);
+                        }
+                    }
+                    this.friends_filter = newListData;
+                }else{
+                    this.friends_filter = this.friends;
+                }
+
+            }
+        },
+        methods: {
+            // 判断是否移动端
+            isMobile() {
+                return navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+            },
+            createmsgcontext:function(){
+                return JSON.parse(JSON.stringify(this.msgcontext))
+            },
+            adduser(){
+                if(this.status === "chating"){
+                    this.status="addcontacts"
+                }else{
+                    this.status="chating"
+                }
+
+                this.title = {name:'',dstid:'',userid:''};
+                this.msglist = []
+
+            },
+            newChat:async function(){
+                //console.log('this.addvalue:',this.addvalue)
+                //console.log('this.groupName:',this.groupName)
+
+                if(this.addvalue.length === 1){ //单聊
+                    let res = await post("contact/addfriend",{dstid:this.addvalue[0],userid: userId()})
+                    if(res.code===0){
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
+
+                        let result = await post("contact/loadfriend",{userid:userId()})
+                        this.friends = result.rows ||[];
+                        this.status = 'chating'
+                    }else{
+                        this.$message({
+                            message: res.msg,
+                            type: 'info'
+                        });
+                    }
+                }else if(this.addvalue.length > 1){ //群聊
+                    if(!this.groupName){
+                        this.$message({
+                            message: '请填写群名称',
+                            type: 'warning'
+                        });
+                        return
+                    }
+                    let com = {name:this.groupName,cate:0,memo:"",icon:"/asset/img/community.png",ownerid:userId()}
+                    var res = await post("contact/createcommunity",com)
+                    if(res.code === 0){
+                        for(let item of this.addvalue){
+                            this._joincommunity({dstid:res.data.id,userid:item});
+                        }
+                        this.loadcommunitys();
+                        this.status='chating'
+                        this.$message({
+                            message: '创建成功',
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message({
+                            message: res.msg,
+                            type: 'info'
+                        });
+                    }
+                }
+
+            },
+            _joincommunity:async function(data){
+                await post("contact/joincommunity",data)
+            },
+            toChat(item,tag=1){ //tag : 1--单聊；2--群聊
+                this.status='chating' //关闭 加好友页面
+                if((this.title.dstid === item.id && tag ===2) || (this.title.userid=== item.id && tag===1)){ //如果要切换的窗口就是当前窗口，则不去请求聊天记录
+                    return
+                }
+
+                if(tag === 1){
+                    this.title = {name:item.account,dstid:'',userid:parseInt(item.id)} //正在跟谁聊天，userid 对方userid
+                    this.msgcontext.dstid = parseInt(item.id);  //发给目标人
+                    this.msgcontext.cate = 1; //1 单聊消息
+
+                    this.unreadMSG.splice(this.unreadMSG.indexOf(Number(this.msgcontext.dstid)),1) //消除未读消息 红点点
+                    this.loadrecord(1) //加载聊天记录
+                }else{
+                    this.title = {name:item.name,dstid:parseInt(item.id),userid:''} //正在跟谁聊天, dstid 目标群id
+                    this.msgcontext.dstid = parseInt(item.id); //发给目标群
+                    this.msgcontext.cate = 2; //2 群聊消息
+
+                    this.unreadMSGG.splice(this.unreadMSGG.indexOf(Number(this.msgcontext.dstid)),1) //消除未读消息 红点点
+                    this.loadrecord(2) //加载聊天记录
+                }
+            },
+            loadrecord:async function(tag = 1){  //tag : 1--单聊；2--群聊
+                this.msglist = []
+                let res = await post("contact/loadrecord",{userid: userId(),dstid:this.msgcontext.dstid,cate:this.msgcontext.cate})
+                for(let item of res.rows){
+                    this.showmsg(item.ownerid,JSON.parse(item.text))
+                }
+            },
+            loadcommunitys:async function(){
+                let res = await post("contact/loadcommunity",{userid:userId()})
+                this.communitys = res.rows ||[];
+                console.log('this.communitys',this.communitys)
+            },
+            playaudio:function(url){ //播放语音
+                document.getElementById('audio4play').src = url;
+                document.getElementById('audio4play').play();
+            },
+            sendtxtmsg:function(txt){ //发送文字
+                if(!txt){
+                    this.$message({
+                        message: '不能发送空白信息',
+                        type: 'warning'
+                    });
+                    return
+                }
+                //{id:1,userid:2,dstid:3,cate:1,media:1,content:"hello"}
+                var msg =this.createmsgcontext();
+                msg.media=1;
+                msg.content=txt;
+                this.showmsg(userId(),msg);
+                console.log('发送文字,userId',userId(),JSON.stringify(msg))
+                this.webSocket.send(JSON.stringify(msg))
+            },
+            sendpicmsg:function(picurl,media=5){ //发送图片
+                //{id:1,userid:2,dstid:3,cate:1,media:4,url:"http://www.baidu.com/a/log,jpg"}
+                var msg =this.createmsgcontext();
+                msg.media=media;
+                msg.url=picurl;
+                this.showmsg(userId(),msg)
+                console.log('发送图片,userId',userId(),JSON.stringify(msg))
+                this.webSocket.send(JSON.stringify(msg))
+            },
+            sendaudiomsg:function(url,num){  //发送语音
+                //{id:1,userid:2,dstid:3,cate:1,media:3,url:"http://www.a,com/dsturl.mp3",anount:40}
+                var msg =this.createmsgcontext();
+                msg.media=3;
+                msg.url=url;
+                msg.amount = num;
+                this.showmsg(userId(),msg)
+                console.log('发送语音,userId',userId(),JSON.stringify(msg))
+                this.webSocket.send(JSON.stringify(msg))
+            },
+            showmsg:function(user,msg){
+                var data={}
+                data.ismine = userId()==msg.userid;
+                data.user = user;
+                data.account = this.usermap[user].account ;
+                data.msg = msg;
+                this.msglist = this.msglist.concat(data)
+                this.txtmsg = "";
+                var that =this;
+                that.timer = setTimeout(function(){
+                    window.scrollTo(0, document.getElementById("convo").offsetHeight);
+                    clearTimeout(that.timer)
+                },100)
+
+                //console.log('msglist',this.msglist)
+            },
+            startrecorder:function(){
+                console.log('startrecorder');
+                let audioTarget = document.getElementById('audio');
+                var types = ["video/webm",
+                    "audio/webm",
+                    "video/webm\;codecs=vp8",
+                    "video/webm\;codecs=daala",
+                    "video/webm\;codecs=h264",
+                    "audio/webm\;codecs=opus",
+                    "video/mpeg"];
+                var suporttype ="";
+                for (var i in types) {
+                    if(MediaRecorder.isTypeSupported(types[i])){
+                        suporttype = types[i];
+                    }
+                }
+                if(!suporttype){
+                    this.$message({
+                        message: '编码不支持',
+                        type: 'error'
+                    });
+                    return ;
+                }
+
+                this.duration = new Date().getTime();
+                navigator.mediaDevices.getUserMedia({audio: true, video: false})
+                    .then(function(stream){
+                        this.showprocess = true
+                        this.recorder = new MediaRecorder(stream);
+                        audioTarget.srcObject = stream;
+
+                        this.recorder.ondataavailable = (event) => {
+                            console.log("ondataavailable");
+                            uploadblob("attach/upload",event.data,".mp3",res=>{
+                                var duration = Math.ceil((new Date().getTime()-this.duration)/1000);
+                                this.sendaudiomsg(res.data,duration);
+                            })
+                            stream.getTracks().forEach(function (track) {
+                                track.stop();
+                            });
+                            this.showprocess = false
+                        }
+                        this.recorder.start();
+                    }.bind(this)).
+                catch(function(err){
+                    console.log(err)
+                    this.$message({
+                        message: err,
+                        type: 'error'
+                    });
+                    this.showprocess = false
+                }.bind(this));
+            },
+            stoprecorder :function() {
+                if(typeof this.recorder.stop=="function"){
+                    this.recorder.stop();
+                }
+                this.showprocess = false
+                console.log("stoprecorder")
+            },
+            cancelrecorder :function() {
+                this.showprocess = false
+                console.log("cancelrecorder")
+            },
+            loaduserinfo:function(userid,cb){
+                userid = ""+userid;
+                var userinfo = this.usermap[userid];
+                if(!userinfo){
+                    let res = post("user/find",{id:parseInt(userid)},function(res){
+                        cb(res.data);
+                        this.usermap[userid] = res.data;
+                    }.bind(this))
+                }else{
+                    cb(userinfo)
+                }
+            },
+            initwebsocket:function(){
+                var url="ws://"+location.host+"/chat?id="+util.parseQuery("id");
+                // var url="ws://http://127.0.0.1:8080/chat.html";
+
+                this.webSocket=new WebSocket(url);
+                //消息处理
+                this.webSocket.onmessage = function(evt){
+                    if(evt.data.indexOf("}")>-1){ //收到的消息
+                        console.log("recv<===="+evt.data)
+
+                        let receive = JSON.parse(evt.data)
+
+                        if(receive.cate===1){ //--单聊
+                            if(this.unreadMSG.indexOf(Number(receive.userid)) === -1  && this.title.userid != Number(receive.userid)){  //记录未读消息提醒(如果正在当前聊天窗口，则不记录)
+                                this.unreadMSG.push(Number(receive.userid))
+                                console.log('this.unreadMSG',this.unreadMSG)
+                            }
+                            if(this.title.userid == Number(receive.userid)){ //当前是目标聊天窗口，则展示消息
+                                this.showmsg(receive.userid,receive)
+                            }
+                        }
+
+                        if(receive.cate===2){ //--群聊
+                            if(this.unreadMSGG.indexOf(Number(receive.dstid)) === -1 && this.title.dstid != Number(receive.dstid)){  //记录未读消息提醒(如果正在当前聊天窗口，则不记录)
+                                this.unreadMSGG.push(Number(receive.dstid))
+                                console.log('this.unreadMSGG',this.unreadMSGG)
+                            }
+                            if( this.title.dstid == Number(receive.dstid)){ //当前是目标群聊天窗口，则展示消息
+                                this.showmsg(receive.userid,receive)
+                            }
+                        }
+                    }else{
+                        console.log("recv<=="+evt.data)
+                    }
+                }.bind(this)
+                //关闭回调
+                this.webSocket.onclose=function (evt) {
+                    console.log(evt.data)
+                }
+                //出错回调
+                this.webSocket.onerror=function (evt) {
+                    console.log(evt.data)
+                }
+                /*{
+                    this.webSocket.send()
+                }*/
+            }
+        }
+    })
+</script>
+<style>
+    .navBar_left{justify-content: center;align-items: center; margin:10px;}
+    .el-avatar{margin: 10px;}
+    .el-input{width:80%;}
+    
+    .item {margin-top: 5px;margin-right: 5px;}
+    .el-badge__content.is-dot {height: 12px;width: 12px;}
+    .navBar_left{margin:unset}
+    .chatmessBox .show-emoji{width: 40px;height:40px;}
+    .chatmessBox .show-img img{width: 100%;height:100%;margin:unset;}
+    .search-name{width: 45%;padding: 10px 0 10px 30px;}
+    .group-name{width: 25%;margin-right: 12px}
+</style>
+{{end}}

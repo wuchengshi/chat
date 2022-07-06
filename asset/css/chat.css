@@ -1,0 +1,196 @@
+
+.navBar{
+    height: 10vh;
+    border-bottom:1px solid #e2e2e2;
+    display: flex;
+}
+.flex{
+    display: flex;
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+.leftBox{
+    width: 35vw;
+    border-right:1px solid #e2e2e2;
+    height: 90vh;
+    overflow: auto;
+}
+.main{
+    width: 65vw;
+    height: 90vh;
+}
+.navBar_left{
+    width: 35vw;
+    border-right:1px solid #e2e2e2;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+}
+
+.navBar_left .el-input input{
+    border-radius: 20px;
+}
+.navBar_left .el-icon-circle-plus-outline{
+    font-size: 30px;
+    color: #aaa;
+    padding-left: 15px;
+}
+.navBar_right{
+    width: 65vw;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navBar_right span{
+    font-size: 2rem;
+}
+.navBar_right .el-icon-close{
+    font-size: 30px;
+    color: #aaa;
+}
+.mess_item{
+    display: flex;
+    padding: 15px 30px;
+    justify-content: space-between;
+}
+.name{
+    font-size: 1.4rem;
+}
+.textinfo{
+    color: #ccc;
+}
+.act_item{
+    background: #c5c4c4;
+}
+.userList .el-radio{
+    margin-top: 15px;
+}
+.userList{
+    padding: 10px 30px;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    border-bottom:1px solid #e2e2e2;
+    margin-bottom: 2rem;
+}
+.paddwin{
+    padding: 10px 30px;
+}
+.chatmessBox{
+    height: 70vh;
+    border-bottom:1px solid #e2e2e2;
+    padding:  30px;
+    overflow: auto;
+}
+.messBox{
+    padding: 10px;
+    border-radius: 5px;
+    background: #f2f2f2;
+    margin: 0 20px ;
+    position: relative;
+    font-size: 1.4rem;
+    max-width: 25vw;
+
+}
+.sjicon{
+    width: 8px;
+    height: 8px;
+    border: 8px solid transparent;
+    border-right-color: #f2f2f2;
+    position: absolute;
+    left: -16px;
+    top: 10px;
+}
+.minemess .messBox{
+    background:#e1f5ef ;
+}
+.minemess .sjicon{
+    border: 8px solid transparent;
+    border-left-color: #e1f5ef;
+    position: absolute;
+    top: 10px;
+    left: auto;
+    right: -16px;
+}
+.chatmessBox .el-row{
+    margin-bottom: 2rem;
+}
+.chatmessBox img{
+    width: 40px;
+    height: 40px;
+    margin: 10px 20px;
+    border-radius: 5px;
+}
+.sendmessBox{
+    padding: 50px 30px;
+    position: relative;
+    height: 20vh;
+}
+.navIcon{
+    position: absolute;
+    top: 20px;
+}
+.navIcon span{
+    width:2rem;
+    height: 2rem;
+    background: url("../img/chat/icon_03.jpg") center no-repeat;
+    margin-right:1.5rem;
+}
+.navIcon .imgicon{
+    background: url("../img/chat/icon_05.jpg") center no-repeat;
+    margin-right:1.5rem;
+}
+.navIcon .yyicon{
+    background: url("../img/chat/icon_07.jpg") center no-repeat;
+    margin-right:1.5rem;
+}
+.el-textarea{
+    height: 100%;
+}
+.el-textarea textarea{
+    height: 100%;
+    border: none;
+    padding: 0;
+}
+.sendBtn{
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+    padding: 10px 20px;
+}
+.navIcon .emojiicon{
+    position: relative;
+}
+.emojiView{
+    position: absolute;
+    top: -48vw;
+    left: -22vw;
+    z-index:99 ;
+}
+.emojiBox{
+    background: #fff;
+    padding: 1vw;
+    width: 46vw;
+    height: 46vw;
+    box-shadow: 0 15px 30px  rgba(0, 0, 0, .4);
+}
+.emojiBox img{
+    width: 2vw;
+    height: 2vw;
+    margin: 1vw;
+}
+.emojisj{
+    width: 1vw;
+    height: 1vw;
+    border:1vw solid transparent;
+    border-top-color: #f2f2f2;
+    margin: 0 auto;
+}
