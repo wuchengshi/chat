@@ -49,9 +49,12 @@ http://127.0.0.1:8080/chat.html
 使用go mod 自动处理安装包
 
 # 演示截图
+1. 添加好友
 ![添加好友](https://github.com/wuchengshi/chat/blob/main/asset/img/show/add.png)
 
+2. 单聊
 ![单聊](https://github.com/wuchengshi/chat/blob/main/asset/img/show/chat1.png)
 
+3. 群聊
 ![群聊](https://github.com/wuchengshi/chat/blob/main/asset/img/show/chat2.png) 
 
