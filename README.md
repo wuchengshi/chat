@@ -11,7 +11,7 @@ export GOPROXY=https://goproxy.io
 ## 声明
 > 课程参考 https://coding.imooc.com/class/339.html，本程序借鉴课程中思想，实现PC端的即时通讯  
 > 
-> 有问题可联系本人，微信 wucs_dd
+> 有问题可联系我，微信 wucs_dd ,拉你入 Go 群，方便交流。
 
 ## 1.项目配置，非常重要
 
